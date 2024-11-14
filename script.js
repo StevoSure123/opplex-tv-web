@@ -1,4 +1,4 @@
-const CHANNELS_PER_PAGE = 20;
+const CHANNELS_PER_PAGE = 50;
 let channels = [];
 let currentPage = 1;
 let currentGroup = 'all';
