@@ -1,74 +1,128 @@
+const CHANNELS_PER_PAGE = 20;
+let channels = [];
+let currentPage = 1;
+let currentGroup = 'all';
+let searchQuery = '';
+
 // Fetch the local M3U playlist
 fetch('M3UPlus-Playlist-20241019222427.m3u')
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok: ' + response.statusText);
-        }
-        return response.text();
-    })
+    .then(response => response.ok ? response.text() : Promise.reject(response.statusText))
     .then(data => {
-        const channels = parseM3U(data);
-        console.log('Parsed Channels:', channels); // Debugging: Logs parsed channels
-        displayChannels(channels);
+        channels = parseM3U(data);
+        populateGroups();
+        displayChannels();
     })
     .catch(error => console.error('Error fetching M3U file:', error));
 
-// Function to parse the M3U file
+// Parse the M3U file
 function parseM3U(data) {
     const lines = data.split('\n');
-    const channels = [];
+    const parsedChannels = [];
     let currentChannel = {};
 
     lines.forEach(line => {
         line = line.trim();
+
         if (line.startsWith('#EXTINF:')) {
-            if (currentChannel.name) {
-                channels.push(currentChannel);
-                currentChannel = {};
-            }
+            // Push the last channel if there's any
+            if (currentChannel.name) parsedChannels.push(currentChannel);
+            
+            currentChannel = {}; // Reset for the new channel
+
             const nameMatch = line.match(/,(.+)$/);
-            const logoMatch = line.match(/tvg-logo="([^"]+)"/); // Extracts logo from M3U
-            if (nameMatch) {
-                currentChannel.name = nameMatch[1].trim();
-            }
-            if (logoMatch) {
-                currentChannel.logo = logoMatch[1];
-            }
+            const logoMatch = line.match(/tvg-logo="([^"]*)"/);
+            const groupMatch = line.match(/group-title="([^"]*)"/);
+
+            if (nameMatch) currentChannel.name = nameMatch[1].trim();
+            currentChannel.logo = logoMatch ? logoMatch[1] : '';
+            currentChannel.group = groupMatch ? groupMatch[1] : 'Ungrouped';
         } else if (line && !line.startsWith('#')) {
-            currentChannel.url = line.trim();
+            currentChannel.url = line;
         }
     });
 
-    // Push last channel if exists
-    if (currentChannel.name) {
-        channels.push(currentChannel);
-    }
-
-    return channels;
+    // Push the last channel if it exists
+    if (currentChannel.name) parsedChannels.push(currentChannel);
+    return parsedChannels;
 }
 
-// Display channels in the HTML
-function displayChannels(channels) {
+// Populate group select options
+function populateGroups() {
+    const groupSelect = document.getElementById('group-select');
+    const groups = Array.from(new Set(channels.map(channel => channel.group || 'Ungrouped')));
+    groups.forEach(group => {
+        const option = document.createElement('option');
+        option.value = group;
+        option.textContent = group;
+        groupSelect.appendChild(option);
+    });
+}
+
+// Display channels with pagination, search, and group filter
+function displayChannels() {
     const container = document.getElementById('channel-list');
-    container.innerHTML = ''; // Clear any existing content
+    container.innerHTML = ''; // Clear current channels
 
-    if (channels.length === 0) {
-        container.innerHTML = '<p>No channels found</p>';
-        console.warn('No channels were parsed from the M3U file.');
-    } else {
-        channels.forEach(channel => {
-            console.log('Displaying channel:', channel); // Debug each channel
-            const channelDiv = document.createElement('div');
-            channelDiv.classList.add('channel');
-            channelDiv.innerHTML = `
-                <img src="${channel.logo || 'path/to/default_logo.png'}" alt="${channel.name}" class="channel-logo" onclick="playStream('${encodeURIComponent(channel.url)}', '${encodeURIComponent(channel.name)}')">
-                <p>${channel.name}</p>
-            `;
-            container.appendChild(channelDiv);
-        });
-    }
+    const filteredChannels = channels.filter(channel =>
+        (currentGroup === 'all' || channel.group === currentGroup) &&
+        (!searchQuery || channel.name.toLowerCase().includes(searchQuery.toLowerCase()))
+    );
+
+    const start = (currentPage - 1) * CHANNELS_PER_PAGE;
+    const end = Math.min(start + CHANNELS_PER_PAGE, filteredChannels.length);
+    const pageChannels = filteredChannels.slice(start, end);
+
+    pageChannels.forEach(channel => {
+        const channelDiv = document.createElement('div');
+        channelDiv.classList.add('channel');
+        channelDiv.innerHTML = `
+            <img src="${channel.logo || 'path/to/default_logo.png'}" alt="${channel.name}" class="channel-logo" onclick="playStream('${encodeURIComponent(channel.url)}', '${encodeURIComponent(channel.name)}')">
+            <p>${channel.name}</p>
+        `;
+        container.appendChild(channelDiv);
+    });
+
+    // Update pagination info
+    document.getElementById('page-info').textContent = `Page ${currentPage} of ${Math.ceil(filteredChannels.length / CHANNELS_PER_PAGE)}`;
+    document.getElementById('prev-page').disabled = currentPage === 1;
+    document.getElementById('next-page').disabled = end >= filteredChannels.length;
 }
 
+// Handle search input
+document.getElementById('search-input').addEventListener('input', (e) => {
+    searchQuery = e.target.value;
+    currentPage = 1;
+    displayChannels();
+});
+
+// Handle group selection
+document.getElementById('group-select').addEventListener('change', (e) => {
+    currentGroup = e.target.value === 'all' ? 'all' : e.target.value;
+    currentPage = 1;
+    displayChannels();
+});
+
+// Pagination controls
+document.getElementById('prev-page').addEventListener('click', () => {
+    if (currentPage > 1) {
+        currentPage--;
+        displayChannels();
+    }
+});
+
+document.getElementById('next-page').addEventListener('click', () => {
+    const maxPage = Math.ceil(channels.filter(channel =>
+        (currentGroup === 'all' || channel.group === currentGroup) &&
+        (!searchQuery || channel.name.toLowerCase().includes(searchQuery.toLowerCase()))
+    ).length / CHANNELS_PER_PAGE);
+    
+    if (currentPage < maxPage) {
+        currentPage++;
+        displayChannels();
+    }
+});
+
+// Play stream with proxy
 function playStream(url, name) {
     const proxyUrl = `proxy.html?url=${encodeURIComponent(url)}&name=${encodeURIComponent(name)}`;
     window.location.href = proxyUrl;
