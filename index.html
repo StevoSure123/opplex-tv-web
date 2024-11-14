@@ -9,7 +9,16 @@
 <body>
     <div class="container">
         <h1>StevoSures Opplex TV LIVE WEB</h1>
+        <input type="text" id="search-input" placeholder="Search Channels...">
+        <select id="group-select">
+            <option value="all">All Groups</option>
+        </select>
         <div id="channel-list"></div>
+        <div id="pagination-controls">
+            <button id="prev-page">Previous</button>
+            <span id="page-info"></span>
+            <button id="next-page">Next</button>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>
