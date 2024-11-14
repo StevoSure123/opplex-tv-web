@@ -55,18 +55,6 @@
             text-align: center;
             margin: 20px;
         }
-        #redirect-button {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        #redirect-button:hover {
-            background-color: #0056b3;
-        }
         #info-text {
             font-size: 14px;
             color: #aaa;
@@ -88,8 +76,7 @@
     </div>
 
     <div id="redirect-container">
-        <button id="redirect-button">Redirect to HTTP page (Better Experience)</button>
-        <p id="info-text">If it shows that the site is not secure, it is because it is hosted on HTTP. We love your safety. Please trust us...</p>
+        <p id="info-text">Redirecting to HTTP page for a better experience...</p>
     </div>
 
     <!-- Video.js and streaming libraries -->
@@ -179,11 +166,9 @@
         // Call loadStream to initialize the appropriate player
         loadStream();
 
-        // Redirect button handler
-        document.getElementById('redirect-button').onclick = function() {
-            const httpUrl = `http://unknown-playlists.sportsontheweb.net/player.html?url=${encodeURIComponent(streamUrl)}&name=${encodeURIComponent(channelName)}`;
-            window.location.href = httpUrl;
-        };
+        // Automatic redirection to HTTP page
+        const httpUrl = `http://unknown-playlists.sportsontheweb.net/player.html?url=${encodeURIComponent(streamUrl)}&name=${encodeURIComponent(channelName)}`;
+        window.location.href = httpUrl; // Automatically redirect to HTTP page
     </script>
 </body>
 </html>
