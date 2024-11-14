@@ -21,6 +21,26 @@ h1 {
     font-weight: 600;
 }
 
+/* Search box and group selection (rounded edges) */
+input[type="text"], select {
+    padding: 12px;
+    font-size: 16px;
+    background-color: #1e1e1e;
+    color: #f4f4f4;
+    border: 2px solid #333;
+    border-radius: 25px; /* Rounded edges */
+    width: 80%;
+    max-width: 400px;
+    margin: 10px 0;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+input[type="text"]:focus, select:focus {
+    outline: none;
+    border-color: #777;
+    background-color: #333;
+}
+
 /* Channel grid */
 #channel-list {
     display: grid;
@@ -28,7 +48,7 @@ h1 {
     gap: 20px;
 }
 
-/* Channel item styles */
+/* Channel item styles (smaller channels) */
 .channel {
     display: flex;
     flex-direction: column;
@@ -37,9 +57,9 @@ h1 {
     background: #1e1e1e;
     border: 2px solid #333;
     border-radius: 15px;
-    padding: 15px;
-    width: 180px;
-    height: 200px;
+    padding: 10px;
+    width: 140px; /* Smaller width */
+    height: 160px; /* Smaller height */
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
     cursor: pointer;
@@ -53,10 +73,10 @@ h1 {
 
 /* Channel logo styling */
 .channel-logo {
-    width: 90px;
-    height: 90px;
+    width: 80px; /* Smaller width for logo */
+    height: 80px; /* Smaller height for logo */
     object-fit: cover;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     border-radius: 50%; /* Circular logo */
     border: 3px solid #444;
     transition: border-color 0.3s ease;
