@@ -1,8 +1,8 @@
 #EXTM3U
 #EXTM3U x-tvg-url=""
-#EXTINF:-1 tvg-id="475242" group-title="ENGLISH | USA" tvg-logo="71915.png",FEEDBACK | 4K.
+#EXTINF:-1 tvg-id="475242" group-title="ENGLISH | USA" tvg-logo="",FEEDBACK | 4K.
 https://bd.spidy.online/MACX/STREAM4K/play.m3u8?id=475242
-#EXTINF:-1 tvg-id="203" group-title="ENGLISH | USA" tvg-logo="203.png",HGTV EAST
+#EXTINF:-1 tvg-id="203" group-title="ENGLISH | USA" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/a/a8/HGTV_2010.svg",HGTV EAST
 https://bd.spidy.online/MACX/STREAM4K/play.m3u8?id=203
 #EXTINF:-1 tvg-id="197" group-title="ENGLISH | USA" tvg-logo="197.png",FOOD NETWORK USA
 https://bd.spidy.online/MACX/STREAM4K/play.m3u8?id=197
@@ -2000,13 +2000,13 @@ https://bd.spidy.online/MACX/STREAM4K/play.m3u8?id=5684
 https://bd.spidy.online/MACX/STREAM4K/play.m3u8?id=5685
 #EXTINF:-1 tvg-id="5686" group-title="ENGLISH | KIDS" tvg-logo="5686.png",CARTOONITO
 https://bd.spidy.online/MACX/STREAM4K/play.m3u8?id=5686
-#EXTINF:-1 tvg-id="5687" group-title="ENGLISH | KIDS" tvg-logo="5687.jpg",DISNEY CHANNEL.
+#EXTINF:-1 tvg-id="5687" group-title="ENGLISH | KIDS" tvg-logo="https://ltsk-cdn.s3.eu-west-1.amazonaws.com/jumpstart/Temp_Live/cdn/HLS/Channel/imageContent-1356-j5tdnwmw-v1/imageContent-1356-j5tdnwmw-m1.png",DISNEY CHANNEL.
 https://bd.spidy.online/MACX/STREAM4K/play.m3u8?id=5687
-#EXTINF:-1 tvg-id="5688" group-title="ENGLISH | KIDS" tvg-logo="5688.jpg",DISNEY CHANNEL | UK
+#EXTINF:-1 tvg-id="5688" group-title="ENGLISH | KIDS" tvg-logo="https://ltsk-cdn.s3.eu-west-1.amazonaws.com/jumpstart/Temp_Live/cdn/HLS/Channel/imageContent-1356-j5tdnwmw-v1/imageContent-1356-j5tdnwmw-m1.png",DISNEY CHANNEL | UK
 https://bd.spidy.online/MACX/STREAM4K/play.m3u8?id=5688
-#EXTINF:-1 tvg-id="5689" group-title="ENGLISH | KIDS" tvg-logo="5689.jpg",DISNEY CHANNEL | US
+#EXTINF:-1 tvg-id="5689" group-title="ENGLISH | KIDS" tvg-logo="https://ltsk-cdn.s3.eu-west-1.amazonaws.com/jumpstart/Temp_Live/cdn/HLS/Channel/imageContent-1356-j5tdnwmw-v1/imageContent-1356-j5tdnwmw-m1.png",DISNEY CHANNEL | US
 https://bd.spidy.online/MACX/STREAM4K/play.m3u8?id=5689
-#EXTINF:-1 tvg-id="5690" group-title="ENGLISH | KIDS" tvg-logo="5690.jpg",DISNEY JR.
+#EXTINF:-1 tvg-id="5690" group-title="ENGLISH | KIDS" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTX5j0rvlE19jsom98EPep8co41LBkIM4BQzgBr8fNFDC6BYqmvrmZbeexmTqyr1ETKv90&usqp=CAU",DISNEY JR.
 https://bd.spidy.online/MACX/STREAM4K/play.m3u8?id=5690
 #EXTINF:-1 tvg-id="5691" group-title="ENGLISH | KIDS" tvg-logo="5691.png",DISNEY XD | UK
 https://bd.spidy.online/MACX/STREAM4K/play.m3u8?id=5691
