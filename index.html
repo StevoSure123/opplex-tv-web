@@ -5,140 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web by StevoSure - Playlist by Ranapk</title>
     <link rel="stylesheet" href="styles.css">
-    <style>
-        /* General Styles */
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #000; /* Fully dark background */
-            color: #fff; /* White text */
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-        }
-        .container {
-            max-width: 900px;
-            margin: 50px auto;
-            padding: 30px;
-            background-color: #222; /* Darker container for contrast */
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.6);
-            animation: fadeIn 0.8s ease-in-out;
-        }
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            font-weight: 700;
-            letter-spacing: 1px;
-            color: #ff6347; /* Fancy orange color for the title */
-        }
-        p {
-            font-size: 1rem;
-            margin: 10px 0;
-            color: #bbb; /* Light gray for credits and footer text */
-        }
-        .credits {
-            font-style: italic;
-        }
-        .footer-text {
-            font-size: 0.9rem;
-        }
-        
-        /* Inputs and Select */
-        #search-input, #group-select {
-            width: 90%;
-            padding: 12px;
-            margin: 10px 0;
-            border-radius: 30px;
-            background-color: #333;
-            color: #fff;
-            border: 2px solid #444;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-        #search-input::placeholder {
-            color: #aaa;
-        }
-        #group-select {
-            text-align: center;
-            cursor: pointer;
-        }
-        #search-input:focus, #group-select:focus {
-            border-color: #ff6347; /* Highlight border on focus */
-            background-color: #444;
-        }
-
-        /* Channels Section */
-        #channel-list {
-            margin: 20px 0;
-            background-color: #333; /* Slightly lighter for channels */
-            padding: 20px;
-            border-radius: 10px;
-            max-height: 300px;
-            overflow-y: auto;
-            text-align: left;
-            transition: all 0.5s ease;
-        }
-
-        .channel {
-            padding: 12px;
-            margin: 10px 0;
-            background-color: #444;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-        }
-
-        .channel:hover {
-            background-color: #ff6347; /* Bright hover color */
-            transform: scale(1.05); /* Slight grow effect */
-        }
-
-        /* Pagination */
-        #pagination-controls {
-            margin-top: 20px;
-        }
-        #pagination-controls button {
-            padding: 12px 25px;
-            margin: 5px;
-            border: 2px solid #fff;
-            background-color: #444;
-            color: #fff;
-            border-radius: 25px; /* Fully rounded */
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        #pagination-controls button:hover {
-            background-color: #ff6347; /* Hover effect with bright color */
-            color: #000;
-            transform: scale(1.1);
-        }
-
-        /* Footer Styling */
-        .footer-text {
-            margin-top: 20px;
-            font-size: 1rem;
-            color: #bbb;
-            font-weight: 300;
-        }
-
-        /* Animation for smooth loading */
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 1;
-            }
-        }
-    </style>
 </head>
 <body>
     <div class="container">
@@ -147,24 +13,12 @@
         <select id="group-select">
             <option value="all">All Groups</option>
         </select>
-        <p class="credits">Thanks to RANAPK for both of the playlists!</p>
-
-        <div id="channel-list">
-            <!-- Dynamic Channel List Will Be Injected Here -->
-            <div class="channel">Channel 1</div>
-            <div class="channel">Channel 2</div>
-            <div class="channel">Channel 3</div>
-            <div class="channel">Channel 4</div>
-            <div class="channel">Channel 5</div>
-        </div>
-
+        <div id="channel-list"></div>
         <div id="pagination-controls">
             <button id="prev-page">Previous</button>
-            <span id="page-info">Page 1 of 3</span>
+            <span id="page-info"></span>
             <button id="next-page">Next</button>
         </div>
-
-        <p class="footer-text">Website made by STEVOSURE</p>
     </div>
     <script src="script.js"></script>
 </body>
