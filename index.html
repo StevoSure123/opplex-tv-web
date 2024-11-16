@@ -50,8 +50,23 @@
         #channel-list {
             margin: 20px 0;
             background-color: #444; /* Lighter grey for the channels */
-            padding: 10px;
+            padding: 20px;
             border-radius: 5px;
+            max-height: 300px;
+            overflow-y: auto;
+            text-align: left; /* Align text left */
+        }
+
+        .channel {
+            padding: 10px;
+            margin: 5px 0;
+            background-color: #555;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .channel:hover {
+            background-color: #666;
         }
 
         /* Pagination */
@@ -88,9 +103,16 @@
             <option value="all">All Groups</option>
         </select>
         <p class="credits">Thanks to RANAPK for both of the playlists!</p>
+        
+        <!-- Channels List -->
         <div id="channel-list">
-            <!-- Channels (Add dynamic content here) -->
+            <div class="channel">Channel 1</div>
+            <div class="channel">Channel 2</div>
+            <div class="channel">Channel 3</div>
+            <div class="channel">Channel 4</div>
+            <div class="channel">Channel 5</div>
         </div>
+        
         <div id="pagination-controls">
             <button id="prev-page">Previous</button>
             <span id="page-info">Page 1 of 3</span>
