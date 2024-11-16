@@ -3,98 +3,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web by StevoSure - Playlist by Ranapk</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Live Stream</title>
+    <link rel="stylesheet" href="https://vjs.zencdn.net/7.21.1/video-js.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* General Styles */
+        /* General Styling */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #000; /* Black background */
-            color: #fff; /* White text */
+            background: #000; /* Fully dark background */
+            color: white;
+            font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow: hidden;
         }
-        .container {
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: #000; /* Black container */
-            border-radius: 10px;
-            text-align: center;
+
+        #videoContainer {
+            max-width: 900px;
+            width: 95%;
+            background: rgba(20, 20, 20, 0.95); /* Darker container background */
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            padding: 30px 20px 40px 20px;
+            animation: fadeIn 0.8s ease-out;
+            position: relative;
         }
+
         h1 {
-            font-size: 2rem;
-            margin-bottom: 20px;
-        }
-        p {
-            font-size: 1rem;
-            margin: 10px 0;
-        }
-        #search-input, #group-select {
-            width: 80%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #fff;
-            border-radius: 5px;
-            background-color: #000;
-            color: #fff;
-        }
-        #search-input::placeholder {
-            color: #bbb; /* Subtle gray for placeholders */
-        }
-        #group-select {
+            color: #ffffff;
+            font-size: 2.5rem;
             text-align: center;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.7), 0 0 8px rgba(255, 255, 255, 0.3);
         }
 
-        /* Channels Section */
-        #channel-list {
-            margin: 20px 0;
+        .video-js {
+            width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.8), 0 0 15px rgba(255, 255, 255, 0.1);
         }
 
-        /* Pagination */
-        #pagination-controls {
+        .error-message {
+            color: #FF5A5A;
+            font-size: 1.2rem;
+            text-align: center;
             margin-top: 20px;
+            font-weight: 500;
         }
-        #pagination-controls button {
-            padding: 10px 20px;
-            margin: 5px;
-            border: 1px solid #fff;
-            background-color: #000;
-            color: #fff;
-            border-radius: 20px; /* Rounded edges */
+
+        .refresh-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff6600, #ff3333);
+            color: white;
+            font-weight: bold;
+            padding: 15px 30px;
+            border-radius: 15px;
+            text-transform: uppercase;
+            font-size: 1.1rem;
+            margin-top: 20px;
             cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        #pagination-controls button:hover {
-            background-color: #fff;
-            color: #000;
+            transition: all 0.4s ease;
+            box-shadow: 0 5px 15px rgba(255, 99, 71, 0.5), 0 0 15px rgba(255, 140, 0, 0.3);
+            text-align: center;
+            width: 100%;
         }
 
-        /* Footer and Credits */
-        .credits, .footer-text {
-            margin-top: 20px;
-            font-size: 1rem;
+        .refresh-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(255, 99, 71, 0.8), 0 0 25px rgba(255, 140, 0, 0.6);
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Opplex TV + Stream 4K LIVE WEB</h1>
-        <input type="text" id="search-input" placeholder="Search Channels...">
-        <select id="group-select">
-            <option value="all">All Groups</option>
-        </select>
-        <p class="credits">Thanks to RANAPK for both of the playlists!</p>
-        <div id="channel-list">
-            <!-- Channels (Add dynamic content here) -->
-        </div>
-        <div id="pagination-controls">
-            <button id="prev-page">Previous</button>
-            <span id="page-info">Page 1 of 3</span>
-            <button id="next-page">Next</button>
-        </div>
-        <p class="footer-text">Website made by STEVOSURE</p>
+    <div id="videoContainer">
+        <h1 id="channel-name">Live Stream</h1>
+        <video id="video" class="video-js vjs-default-skin vjs-big-play-centered" controls autoplay playsinline></video>
+        <div class="error-message" id="error-message"></div>
+        <div id="refresh" class="refresh-btn" onclick="reloadStream()">Refresh Stream</div>
     </div>
-    <script src="script.js"></script>
+    <div class="footer">Crafted with ❤️ by StevoSure</div>
+
+    <script src="https://vjs.zencdn.net/7.21.1/video.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const streamUrl = decodeURIComponent(params.get('url'));
+        const channelName = decodeURIComponent(params.get('name')) || "Live Stream";
+        document.getElementById('channel-name').innerText = channelName;
+
+        const errorMessage = document.getElementById('error-message');
+        const videoElement = document.getElementById('video');
+
+        const player = videojs(videoElement, {
+            autoplay: true,
+            controls: true,
+            preload: 'auto',
+            liveui: true,
+            fluid: true
+        });
+
+        function loadStream() {
+            if (Hls.isSupported() && streamUrl.includes(".m3u8")) {
+                const hls = new Hls({
+                    startLevel: -1,
+                    liveSyncDurationCount: 3,
+                    liveMaxLatencyDurationCount: 5,
+                });
+                hls.on(Hls.Events.MEDIA_ATTACHED, () => console.log("HLS attached."));
+                hls.on(Hls.Events.ERROR, (event, data) => {
+                    console.error("HLS error:", data);
+                    if (data.fatal) {
+                        if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
+                            console.error("Network error, retrying...");
+                            hls.startLoad();
+                        } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
+                            console.error("Media error, trying to recover...");
+                            hls.recoverMediaError();
+                        } else {
+                            errorMessage.innerText = "Stream error. Please refresh.";
+                            hls.destroy();
+                        }
+                    }
+                });
+                hls.loadSource(streamUrl);
+                hls.attachMedia(videoElement);
+            } else if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
+                videoElement.src = streamUrl;
+                videoElement.addEventListener('loadedmetadata', () => {
+                    videoElement.play();
+                });
+            } else {
+                errorMessage.innerText = "Error: Unsupported stream format.";
+            }
+        }
+
+        function reloadStream() {
+            errorMessage.innerText = "";
+            loadStream();
+        }
+
+        loadStream();
+    </script>
 </body>
 </html>
