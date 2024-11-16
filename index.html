@@ -6,10 +6,11 @@
     <title>Web by StevoSure - Playlist by Ranapk</title>
     <link rel="stylesheet" href="styles.css">
     <style>
+        /* General Styles */
         body {
             font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
-            color: #333;
+            background-color: #000; /* Black background */
+            color: #fff; /* White text */
             margin: 0;
             padding: 0;
         }
@@ -17,88 +18,82 @@
             max-width: 800px;
             margin: 50px auto;
             padding: 20px;
-            background: #ffffff;
+            background-color: #000; /* Black container */
             border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
         h1 {
             font-size: 2rem;
             margin-bottom: 20px;
-            color: #007BFF;
         }
         p {
-            margin: 10px 0;
             font-size: 1rem;
-            color: #555;
+            margin: 10px 0;
         }
-        #search-input {
+        #search-input, #group-select {
             width: 80%;
             padding: 10px;
             margin: 10px 0;
-            border: 1px solid #ddd;
+            border: 1px solid #fff;
             border-radius: 5px;
+            background-color: #000;
+            color: #fff;
+        }
+        #search-input::placeholder {
+            color: #bbb; /* Subtle gray for placeholders */
         }
         #group-select {
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            text-align: center;
         }
+
+        /* Channels Section */
         #channel-list {
             margin: 20px 0;
-            text-align: left;
         }
+
+        /* Pagination */
         #pagination-controls {
             margin-top: 20px;
         }
         #pagination-controls button {
             padding: 10px 20px;
             margin: 5px;
-            border: none;
-            background-color: #007BFF;
+            border: 1px solid #fff;
+            background-color: #000;
             color: #fff;
-            border-radius: 5px;
+            border-radius: 20px; /* Rounded edges */
             cursor: pointer;
+            transition: all 0.3s ease;
         }
         #pagination-controls button:hover {
-            background-color: #0056b3;
+            background-color: #fff;
+            color: #000;
         }
-        #page-info {
-            font-weight: bold;
-            margin: 0 10px;
-        }
-        .credits {
+
+        /* Footer and Credits */
+        .credits, .footer-text {
             margin-top: 20px;
             font-size: 1rem;
-        }
-        .credits strong {
-            color: #007BFF;
-        }
-        .credits .emoji {
-            font-size: 1.2rem;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <p class="credits">
-            Website by <strong>STEVOSURE</strong> <span class="emoji">✨</span>
-        </p>
         <h1>Opplex TV + Stream 4K LIVE WEB</h1>
         <input type="text" id="search-input" placeholder="Search Channels...">
         <select id="group-select">
             <option value="all">All Groups</option>
         </select>
-        <div id="channel-list"></div>
+        <p class="credits">Thanks to RANAPK for both of the playlists!</p>
+        <div id="channel-list">
+            <!-- Channels (Add dynamic content here) -->
+        </div>
         <div id="pagination-controls">
             <button id="prev-page">Previous</button>
-            <span id="page-info"></span>
+            <span id="page-info">Page 1 of 3</span>
             <button id="next-page">Next</button>
         </div>
-        <p class="credits">
-            Really thanks to <strong>RANAPK</strong> for both of the playlist! <span class="emoji">😊</span>
-        </p>
+        <p class="footer-text">Website made by STEVOSURE</p>
     </div>
     <script src="script.js"></script>
 </body>
