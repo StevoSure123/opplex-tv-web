@@ -8,7 +8,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
+            background-color: #f0f2f5;
             color: #333;
             margin: 0;
             padding: 0;
@@ -19,13 +19,13 @@
             padding: 20px;
             background: #ffffff;
             border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
         h1 {
             font-size: 2rem;
             margin-bottom: 20px;
-            color: #007BFF;
+            color: #0056b3;
         }
         p {
             margin: 10px 0;
@@ -56,13 +56,15 @@
             padding: 10px 20px;
             margin: 5px;
             border: none;
-            background-color: #007BFF;
+            background-color: #000;
             color: #fff;
-            border-radius: 5px;
+            border-radius: 20px;
             cursor: pointer;
+            transition: all 0.3s ease;
         }
         #pagination-controls button:hover {
-            background-color: #0056b3;
+            background-color: #333;
+            transform: scale(1.1);
         }
         #page-info {
             font-weight: bold;
@@ -73,31 +75,36 @@
             font-size: 1rem;
         }
         .credits strong {
-            color: #007BFF;
+            color: #0056b3;
         }
         .credits .emoji {
             font-size: 1.2rem;
+        }
+        .footer-text {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #777;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <p class="credits">
-            Website by <strong>STEVOSURE</strong> <span class="emoji">✨</span>
-        </p>
         <h1>Opplex TV + Stream 4K LIVE WEB</h1>
         <input type="text" id="search-input" placeholder="Search Channels...">
         <select id="group-select">
             <option value="all">All Groups</option>
         </select>
+        <p class="credits">
+            Thanks to <strong>RANAPK</strong> for both of the playlists! <span class="emoji">😊</span>
+        </p>
         <div id="channel-list"></div>
         <div id="pagination-controls">
             <button id="prev-page">Previous</button>
             <span id="page-info"></span>
             <button id="next-page">Next</button>
         </div>
-        <p class="credits">
-            Really thanks to <strong>RANAPK</strong> for both of the playlist! <span class="emoji">😊</span>
+        <p class="footer-text">
+            Website made by <strong>STEVOSURE</strong> <span class="emoji">✨</span>
         </p>
     </div>
     <script src="script.js"></script>
