@@ -1,7 +1,9 @@
 const CHANNELS_PER_PAGE = 50;
 let channels = [];
 let currentPage = 1;
-let currentGroup = 'all';
+let currentGroup = '
+INDIAN | KIDS CARTOON
+';
 let searchQuery = '';
 
 // Fetch the local M3U playlist
