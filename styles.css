@@ -1,34 +1,47 @@
 /* Global styles */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #121212;
+    font-family: 'Poppins', Arial, sans-serif;
+    background: linear-gradient(145deg, #000, #1c1c1c);
     color: #f4f4f4;
     margin: 0;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
 }
 
+/* Container styling */
 .container {
     max-width: 900px;
     margin: 20px auto;
     padding: 20px;
     text-align: center;
+    background: rgba(30, 30, 30, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 255, 255, 0.1);
 }
 
+/* Headings */
 h1 {
     color: #ffffff;
     margin-bottom: 20px;
-    font-size: 2.2em;
-    font-weight: 600;
+    font-size: 2.5em;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-shadow: 0 3px 6px rgba(0, 0, 0, 0.7), 0 0 8px rgba(255, 255, 255, 0.3);
+    letter-spacing: 2px;
 }
 
-/* Search box and group selection (rounded edges) */
+/* Input and select styles */
 input[type="text"], select {
     padding: 12px;
     font-size: 16px;
     background-color: #1e1e1e;
     color: #f4f4f4;
     border: 2px solid #333;
-    border-radius: 25px; /* Rounded edges */
+    border-radius: 25px;
     width: 80%;
     max-width: 400px;
     margin: 10px 0;
@@ -37,7 +50,7 @@ input[type="text"], select {
 
 input[type="text"]:focus, select:focus {
     outline: none;
-    border-color: #777;
+    border-color: #ff6600;
     background-color: #333;
 }
 
@@ -48,7 +61,7 @@ input[type="text"]:focus, select:focus {
     gap: 20px;
 }
 
-/* Channel item styles (smaller channels) */
+/* Channel item styles */
 .channel {
     display: flex;
     flex-direction: column;
@@ -58,8 +71,8 @@ input[type="text"]:focus, select:focus {
     border: 2px solid #333;
     border-radius: 15px;
     padding: 10px;
-    width: 140px; /* Smaller width */
-    height: 160px; /* Smaller height */
+    width: 140px;
+    height: 160px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
     cursor: pointer;
@@ -67,23 +80,24 @@ input[type="text"]:focus, select:focus {
 
 .channel:hover {
     transform: scale(1.05);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6), 0 0 25px rgba(255, 140, 0, 0.6);
     background-color: #2a2a2a;
 }
 
 /* Channel logo styling */
 .channel-logo {
-    width: 80px; /* Smaller width for logo */
-    height: 80px; /* Smaller height for logo */
+    width: 80px;
+    height: 80px;
     object-fit: cover;
     margin-bottom: 10px;
-    border-radius: 50%; /* Circular logo */
+    border-radius: 50%;
     border: 3px solid #444;
-    transition: border-color 0.3s ease;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .channel-logo:hover {
-    border-color: #777;
+    border-color: #ff6600;
+    box-shadow: 0 0 10px rgba(255, 140, 0, 0.6);
 }
 
 /* Channel text */
@@ -106,18 +120,20 @@ input[type="text"]:focus, select:focus {
 .pagination-controls button {
     padding: 10px 15px;
     font-size: 16px;
-    color: #ffffff;
-    background-color: #333;
+    color: white;
+    background: linear-gradient(135deg, #ff6600, #ff3333);
     border: none;
     border-radius: 8px;
     cursor: pointer;
     margin: 0 5px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 5px 15px rgba(255, 99, 71, 0.5), 0 0 15px rgba(255, 140, 0, 0.3);
 }
 
 .pagination-controls button:hover {
-    background-color: #555;
     transform: translateY(-3px);
+    background-color: #ff4500;
+    box-shadow: 0 10px 25px rgba(255, 69, 0, 0.8);
 }
 
 .pagination-controls button:disabled {
@@ -125,11 +141,10 @@ input[type="text"]:focus, select:focus {
     cursor: not-allowed;
 }
 
-/* Show the active page in a different color */
 .pagination-controls .active {
-    background-color: #666;
-    color: #ffffff;
-    font-weight: 700;
+    background: #ff4500;
+    color: white;
+    font-weight: bold;
 }
 
 /* Responsive adjustments */
