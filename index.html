@@ -5,9 +5,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web by StevoSure - Playlist by Ranapk</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #007BFF;
+        }
+        p {
+            margin: 10px 0;
+            font-size: 1rem;
+            color: #555;
+        }
+        #search-input {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        #group-select {
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        #channel-list {
+            margin: 20px 0;
+            text-align: left;
+        }
+        #pagination-controls {
+            margin-top: 20px;
+        }
+        #pagination-controls button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            background-color: #007BFF;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #pagination-controls button:hover {
+            background-color: #0056b3;
+        }
+        #page-info {
+            font-weight: bold;
+            margin: 0 10px;
+        }
+        .credits {
+            margin-top: 20px;
+            font-size: 1rem;
+        }
+        .credits strong {
+            color: #007BFF;
+        }
+        .credits .emoji {
+            font-size: 1.2rem;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
+        <p class="credits">
+            Website by <strong>STEVOSURE</strong> <span class="emoji">✨</span>
+        </p>
         <h1>Opplex TV + Stream 4K LIVE WEB</h1>
         <input type="text" id="search-input" placeholder="Search Channels...">
         <select id="group-select">
@@ -19,8 +96,8 @@
             <span id="page-info"></span>
             <button id="next-page">Next</button>
         </div>
-        <p style="text-align: center; margin-top: 20px;">
-            Really thanks to <strong>RANAPK</strong> for both of the playlist! 😊
+        <p class="credits">
+            Really thanks to <strong>RANAPK</strong> for both of the playlist! <span class="emoji">😊</span>
         </p>
     </div>
     <script src="script.js"></script>
