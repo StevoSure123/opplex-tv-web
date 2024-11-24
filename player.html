@@ -9,135 +9,63 @@
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
-            overflow: hidden;
             background-color: #121212;
-        }
-
-        /* Fancy base for the button */
-        .base {
-            position: absolute;
-            bottom: 15%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 300px;
-            height: 150px;
-            background: linear-gradient(145deg, #1c1c1c, #292929);
-            border-radius: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5), 0 -5px 15px rgba(255, 255, 255, 0.1);
             display: flex;
             align-items: center;
             justify-content: center;
+            height: 100vh;
+            color: #ccc;
         }
 
-        /* Stylish button */
+        .base {
+            text-align: center;
+            background: linear-gradient(145deg, #1c1c1c, #292929);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5), 0 -5px 15px rgba(255, 255, 255, 0.1);
+        }
+
         .redirect-button {
             background-color: gray;
             color: white;
             font-size: 18px;
-            border: none;
-            padding: 15px 40px;
-            border-radius: 10px;
+            padding: 10px 20px;
+            border-radius: 5px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2), 0 -4px 6px rgba(255, 255, 255, 0.1);
+            transition: 0.3s;
         }
+
         .redirect-button:hover {
             background-color: #888;
-            transform: scale(1.05);
         }
 
-        /* Credits text */
         .credits {
-            position: absolute;
-            bottom: 5%;
-            width: 100%;
-            text-align: center;
+            margin-top: 10px;
+            font-size: 12px;
             color: #aaa;
-            font-size: 14px;
-        }
-
-        /* Particles */
-        .particle {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            animation: fly 1s ease-out forwards;
-            pointer-events: none;
-        }
-
-        /* Particle animation */
-        @keyframes fly {
-            0% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            100% {
-                opacity: 0;
-                transform: translate(calc(var(--dx) * 1px), calc(var(--dy) * 1px)) scale(0);
-            }
         }
     </style>
 </head>
 <body>
-    <!-- Base for the button -->
     <div class="base">
         <button class="redirect-button" id="redirectButton">Redirect to Player Page</button>
+        <div class="credits">Made by StevoSure :)</div>
     </div>
-
-    <!-- Credits -->
-    <div class="credits">Made by StevoSure with ♥</div>
-
     <script>
-        // URL Parameters
         const params = new URLSearchParams(window.location.search);
         const streamUrl = decodeURIComponent(params.get('url'));
         const channelName = decodeURIComponent(params.get('name'));
 
-        // HTTP Redirect URL
-        const httpUrl = `http://unknown-playlists.sportsontheweb.net/player.html?url=${encodeURIComponent(streamUrl)}&name=${encodeURIComponent(channelName)}`;
-
-        // Redirect button logic
+        const playerUrl = `player.html?url=${encodeURIComponent(streamUrl)}&name=${encodeURIComponent(channelName)}`;
         const redirectButton = document.getElementById('redirectButton');
+
         redirectButton.addEventListener('click', () => {
-            window.location.href = httpUrl;
-        });
-
-        // Add particles on mousemove
-        document.body.addEventListener('mousemove', (e) => {
-            if (!e.target.closest('.base')) {
-                spawnParticles(e.clientX, e.clientY);
+            if (streamUrl) {
+                window.location.href = playerUrl;
+            } else {
+                alert('Error: No stream URL provided');
             }
         });
-
-        // Particle spawner
-        function spawnParticles(x, y) {
-            const particleCount = 5;
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = `${x}px`;
-                particle.style.top = `${y}px`;
-
-                // Randomize particle properties
-                const size = Math.random() * 8 + 4;
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-
-                const colors = ['#ff4b5c', '#ffcd3c', '#4bcffa', '#2ed573', '#a29bfe'];
-                particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-
-                // Random trajectory
-                particle.style.setProperty('--dx', `${Math.random() * 300 - 150}`);
-                particle.style.setProperty('--dy', `${Math.random() * 300 - 150}`);
-                document.body.appendChild(particle);
-
-                // Remove particle after animation ends
-                particle.addEventListener('animationend', () => {
-                    particle.remove();
-                });
-            }
-        }
     </script>
 </body>
 </html>
