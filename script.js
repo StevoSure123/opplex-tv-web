@@ -4,9 +4,12 @@ let currentPage = 1;
 let currentGroup = 'all';
 let searchQuery = '';
 
-// Fetch the local M3U playlist
+// Fetch the local M3U playlist securely
 fetch('M3UPlus-Playlist-20241019222427.m3u')
-    .then(response => response.ok ? response.text() : Promise.reject(response.statusText))
+    .then(response => {
+        if (!response.ok) throw new Error(`Error: ${response.statusText}`);
+        return response.text();
+    })
     .then(data => {
         channels = parseM3U(data);
         populateGroups();
@@ -24,10 +27,10 @@ function parseM3U(data) {
         line = line.trim();
 
         if (line.startsWith('#EXTINF:')) {
-            // Push the last channel if there's any
+            // Push the last channel if valid
             if (currentChannel.name) parsedChannels.push(currentChannel);
-            
-            currentChannel = {}; // Reset for the new channel
+
+            currentChannel = {}; // Reset for new channel
 
             const nameMatch = line.match(/,(.+)$/);
             const logoMatch = line.match(/tvg-logo="([^"]*)"/);
@@ -37,11 +40,11 @@ function parseM3U(data) {
             currentChannel.logo = logoMatch ? logoMatch[1] : '';
             currentChannel.group = groupMatch ? groupMatch[1] : 'Ungrouped';
         } else if (line && !line.startsWith('#')) {
-            currentChannel.url = line;
+            currentChannel.url = line.trim();
         }
     });
 
-    // Push the last channel if it exists
+    // Push the last channel
     if (currentChannel.name) parsedChannels.push(currentChannel);
     return parsedChannels;
 }
@@ -50,6 +53,13 @@ function parseM3U(data) {
 function populateGroups() {
     const groupSelect = document.getElementById('group-select');
     const groups = Array.from(new Set(channels.map(channel => channel.group || 'Ungrouped')));
+    
+    // Add default "All" group option
+    const allOption = document.createElement('option');
+    allOption.value = 'all';
+    allOption.textContent = 'All';
+    groupSelect.appendChild(allOption);
+
     groups.forEach(group => {
         const option = document.createElement('option');
         option.value = group;
@@ -58,7 +68,7 @@ function populateGroups() {
     });
 }
 
-// Display channels with pagination, search, and group filter
+// Display channels with pagination, search, and group filtering
 function displayChannels() {
     const container = document.getElementById('channel-list');
     container.innerHTML = ''; // Clear current channels
@@ -76,28 +86,29 @@ function displayChannels() {
         const channelDiv = document.createElement('div');
         channelDiv.classList.add('channel');
         channelDiv.innerHTML = `
-            <img src="${channel.logo || 'path/to/default_logo.png'}" alt="${channel.name}" class="channel-logo" onclick="playStream('${encodeURIComponent(channel.url)}', '${encodeURIComponent(channel.name)}')">
+            <img src="${channel.logo || 'default_logo.png'}" alt="${channel.name}" class="channel-logo" onclick="playStream('${encodeURIComponent(channel.url)}', '${encodeURIComponent(channel.name)}')">
             <p>${channel.name}</p>
         `;
         container.appendChild(channelDiv);
     });
 
     // Update pagination info
-    document.getElementById('page-info').textContent = `Page ${currentPage} of ${Math.ceil(filteredChannels.length / CHANNELS_PER_PAGE)}`;
+    const totalPages = Math.ceil(filteredChannels.length / CHANNELS_PER_PAGE);
+    document.getElementById('page-info').textContent = `Page ${currentPage} of ${totalPages}`;
     document.getElementById('prev-page').disabled = currentPage === 1;
-    document.getElementById('next-page').disabled = end >= filteredChannels.length;
+    document.getElementById('next-page').disabled = currentPage === totalPages;
 }
 
 // Handle search input
 document.getElementById('search-input').addEventListener('input', (e) => {
-    searchQuery = e.target.value;
+    searchQuery = e.target.value.trim();
     currentPage = 1;
     displayChannels();
 });
 
 // Handle group selection
 document.getElementById('group-select').addEventListener('change', (e) => {
-    currentGroup = e.target.value === 'all' ? 'all' : e.target.value;
+    currentGroup = e.target.value;
     currentPage = 1;
     displayChannels();
 });
@@ -115,15 +126,17 @@ document.getElementById('next-page').addEventListener('click', () => {
         (currentGroup === 'all' || channel.group === currentGroup) &&
         (!searchQuery || channel.name.toLowerCase().includes(searchQuery.toLowerCase()))
     ).length / CHANNELS_PER_PAGE);
-    
+
     if (currentPage < maxPage) {
         currentPage++;
         displayChannels();
     }
 });
 
-// Play stream with proxy
+// Play stream securely
 function playStream(url, name) {
-    const proxyUrl = `proxy.html?url=${encodeURIComponent(url)}&name=${encodeURIComponent(name)}`;
+    const sanitizedUrl = encodeURIComponent(url);
+    const sanitizedName = encodeURIComponent(name);
+    const proxyUrl = `proxy.html?url=${sanitizedUrl}&name=${sanitizedName}`;
     window.location.href = proxyUrl;
 }
