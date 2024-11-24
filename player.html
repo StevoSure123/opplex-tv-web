@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirect to Player Page with Simon Says Game</title>
+    <title>Redirect to Player Page</title>
     <style>
         body {
             background-color: #121212;
@@ -34,47 +34,16 @@
             background-color: #666;
         }
 
-        .game-container {
-            text-align: center;
-            margin-top: 50px;
-        }
-
-        .button-container {
-            display: grid;
-            grid-template-columns: repeat(2, 150px);
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        .color-button {
-            width: 150px;
-            height: 150px;
-            border-radius: 10px;
+        iframe {
+            width: 80%;
+            height: 70vh;
             border: none;
-            cursor: pointer;
-            opacity: 0.9;
-            transition: transform 0.2s, opacity 0.2s;
+            margin-top: 20px;
+            border-radius: 15px;
         }
 
-        .color-button:hover {
-            opacity: 1;
-            transform: scale(1.1);
-        }
-
-        #red {
-            background-color: #ff4d4d;
-        }
-
-        #green {
-            background-color: #4dff4d;
-        }
-
-        #blue {
-            background-color: #4d4dff;
-        }
-
-        #yellow {
-            background-color: #ffff4d;
+        h1 {
+            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -83,132 +52,22 @@
     <!-- Redirect Button -->
     <button class="redirect-button" id="redirectButton">Redirect to Player Page</button>
 
-    <!-- Simon Says Game Section -->
-    <div class="game-container">
-        <h1>Simon Says Game (Bonus)</h1>
-        <div class="button-container">
-            <button class="color-button" id="red"></button>
-            <button class="color-button" id="green"></button>
-            <button class="color-button" id="blue"></button>
-            <button class="color-button" id="yellow"></button>
-        </div>
-        <h2 id="levelDisplay">Level: 1</h2>
-    </div>
+    <h1>Uno Game</h1>
+
+    <!-- Embed Uno Game in an iframe -->
+    <iframe src="https://unknown-playlists-opplex-tv.vercel.app/Uno%20Multiplayer.html" title="Uno Game"></iframe>
 
     <script>
-        // Sound effect URLs for the buttons
-        const soundURLs = {
-            red: "https://www.soundjay.com/button/beep-07.wav",
-            green: "https://www.soundjay.com/button/beep-08b.wav",
-            blue: "https://www.soundjay.com/button/beep-09.wav",
-            yellow: "https://www.soundjay.com/button/beep-10.wav",
-            correct: "https://www.soundjay.com/button/button-1a.wav",
-            incorrect: "https://www.soundjay.com/button/button-2a.wav"
-        };
-
-        // Get the color buttons
-        const redButton = document.getElementById('red');
-        const greenButton = document.getElementById('green');
-        const blueButton = document.getElementById('blue');
-        const yellowButton = document.getElementById('yellow');
-        const levelDisplay = document.getElementById('levelDisplay');
-
-        // Get the redirect button
-        const redirectButton = document.getElementById('redirectButton');
-
-        // Function to play sound from URL
-        function playSound(url) {
-            const audio = new Audio(url);
-            audio.play();
-        }
-
-        // Add event listeners to buttons for sound effects
-        redButton.addEventListener('click', () => {
-            playSound(soundURLs.red);
-            handleUserInput('red');
-        });
-
-        greenButton.addEventListener('click', () => {
-            playSound(soundURLs.green);
-            handleUserInput('green');
-        });
-
-        blueButton.addEventListener('click', () => {
-            playSound(soundURLs.blue);
-            handleUserInput('blue');
-        });
-
-        yellowButton.addEventListener('click', () => {
-            playSound(soundURLs.yellow);
-            handleUserInput('yellow');
-        });
-
         // Redirect button functionality
         const params = new URLSearchParams(window.location.search);
         const streamUrl = decodeURIComponent(params.get('url'));
         const channelName = decodeURIComponent(params.get('name'));
         const httpUrl = `http://unknown-playlists.sportsontheweb.net/player.html?url=${encodeURIComponent(streamUrl)}&name=${encodeURIComponent(channelName)}`;
 
+        const redirectButton = document.getElementById('redirectButton');
         redirectButton.addEventListener('click', () => {
             window.location.href = httpUrl;
         });
-
-        // Simon Says game logic
-        let sequence = [];
-        let userInput = [];
-        let level = 1;
-
-        function nextSequence() {
-            if (level > 32) {
-                alert("Congratulations! You've completed the game!");
-                return;
-            }
-
-            const colors = ['red', 'green', 'blue', 'yellow'];
-            const randomColor = colors[Math.floor(Math.random() * 4)];
-            sequence.push(randomColor);
-            userInput = [];
-            levelDisplay.innerText = `Level: ${level}`;
-            playSequence();
-            level++;
-        }
-
-        function playSequence() {
-            let index = 0;
-            const interval = setInterval(() => {
-                const color = sequence[index];
-                playSound(soundURLs[color]);
-                document.getElementById(color).style.transform = 'scale(1.2)';
-                setTimeout(() => {
-                    document.getElementById(color).style.transform = 'scale(1)';
-                }, 500);
-                index++;
-                if (index === sequence.length) {
-                    clearInterval(interval);
-                }
-            }, 1000);
-        }
-
-        function handleUserInput(color) {
-            userInput.push(color);
-            if (userInput[userInput.length - 1] !== sequence[userInput.length - 1]) {
-                playSound(soundURLs.incorrect);
-                alert(`Game Over! You reached level ${level}`);
-                sequence = [];
-                userInput = [];
-                level = 1;
-                levelDisplay.innerText = `Level: ${level}`;
-                return;
-            }
-
-            if (userInput.length === sequence.length) {
-                playSound(soundURLs.correct);
-                setTimeout(nextSequence, 1000);
-            }
-        }
-
-        // Start the Simon Says game
-        nextSequence();
     </script>
 </body>
 </html>
