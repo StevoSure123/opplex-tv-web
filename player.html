@@ -3,110 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirect to Player Page</title>
+    <title>Simon Says Game</title>
     <style>
         /* Global Styles */
         body {
-            background: radial-gradient(circle, #0a0a0a, #1b1b1b);
+            background: radial-gradient(circle, #1a1a1a, #333);
             color: #fff;
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            overflow: hidden;
             text-align: center;
         }
 
         .container {
-            position: relative;
-            display: inline-block;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
         }
 
-        /* Button Styles */
-        .redirect-button {
-            background-color: #3b3b3b;
-            color: #fff;
-            border: none;
-            padding: 25px 50px;
-            font-size: 22px;
-            border-radius: 60px;
+        .button-container {
+            display: grid;
+            grid-template-columns: repeat(2, 150px);
+            grid-gap: 10px;
+            margin-top: 50px;
+        }
+
+        .color-button {
+            width: 140px;
+            height: 140px;
+            border-radius: 20px;
             cursor: pointer;
-            transition: all 0.4s ease;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            letter-spacing: 1px;
+            transition: transform 0.2s ease;
         }
 
-        .redirect-button:hover {
-            background-color: #585858;
-            transform: scale(1.1) rotate(5deg);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        .color-button:active {
+            transform: scale(0.9);
         }
 
-        .redirect-button:active {
-            background-color: #2c2c2c;
-            transform: scale(1) rotate(0);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
-        }
+        .red { background-color: #e74c3c; }
+        .green { background-color: #2ecc71; }
+        .blue { background-color: #3498db; }
+        .yellow { background-color: #f1c40f; }
 
-        /* Subtle glowing effect */
-        .glow-text {
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px rgba(255, 255, 255, 0.5);
-            transition: text-shadow 0.3s ease;
-        }
-
-        .glow-text:hover {
-            text-shadow: 0 0 15px rgba(255, 255, 255, 1), 0 0 25px rgba(255, 255, 255, 0.7);
-        }
-
-        /* Footer text */
-        .footer-text {
-            position: absolute;
-            bottom: 15px;
-            font-size: 16px;
-            color: #dcdcdc;
+        .game-status {
+            margin-top: 20px;
+            font-size: 20px;
             font-weight: bold;
-            letter-spacing: 0.5px;
         }
 
-        /* Animation */
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 1;
-            }
+        .score {
+            font-size: 24px;
+            margin-top: 20px;
         }
 
-        /* Fade-in effect for the button */
-        .redirect-button {
-            animation: fadeIn 1s ease-in-out;
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .button-container {
+                grid-template-columns: 1fr 1fr;
+                grid-gap: 15px;
+            }
+
+            .color-button {
+                width: 100px;
+                height: 100px;
+            }
         }
     </style>
 </head>
 <body>
+
     <div class="container">
+        <h1>Simon Says</h1>
+        <p class="game-status" id="gameStatus">Wait for the sequence...</p>
+        <div class="score" id="score">Score: 0</div>
+        
+        <div class="button-container">
+            <div class="color-button red" id="redButton"></div>
+            <div class="color-button green" id="greenButton"></div>
+            <div class="color-button blue" id="blueButton"></div>
+            <div class="color-button yellow" id="yellowButton"></div>
+        </div>
+
         <button class="redirect-button glow-text" id="redirectButton">Redirect to Player Page</button>
-        <div class="footer-text">Created with ♥ by StevoSure</div>
     </div>
 
     <script>
-        // Get URL parameters for constructing the redirect link
+        // Variables for the game
+        const colorButtons = {
+            red: document.getElementById('redButton'),
+            green: document.getElementById('greenButton'),
+            blue: document.getElementById('blueButton'),
+            yellow: document.getElementById('yellowButton')
+        };
+
+        const gameStatus = document.getElementById('gameStatus');
+        const scoreDisplay = document.getElementById('score');
+        const redirectButton = document.getElementById('redirectButton');
+
+        let sequence = [];
+        let playerSequence = [];
+        let score = 0;
+        let isGameActive = true;
+
+        // Function to play the sequence
+        function playSequence() {
+            let index = 0;
+            const interval = setInterval(() => {
+                flashColor(sequence[index]);
+                index++;
+
+                if (index >= sequence.length) {
+                    clearInterval(interval);
+                    gameStatus.textContent = "Your turn!";
+                    playerSequence = [];
+                    isGameActive = true;
+                }
+            }, 1000);
+        }
+
+        // Function to flash the color
+        function flashColor(color) {
+            colorButtons[color].style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                colorButtons[color].style.transform = 'scale(1)';
+            }, 500);
+        }
+
+        // Function to handle player's click
+        function handlePlayerClick(color) {
+            if (!isGameActive) return;
+            playerSequence.push(color);
+
+            flashColor(color);
+
+            if (playerSequence[playerSequence.length - 1] !== sequence[playerSequence.length - 1]) {
+                gameStatus.textContent = "Wrong! Game over. Starting a new round.";
+                setTimeout(startNewRound, 2000);
+                return;
+            }
+
+            if (playerSequence.length === sequence.length) {
+                score++;
+                scoreDisplay.textContent = `Score: ${score}`;
+                gameStatus.textContent = "Correct! Next round...";
+                setTimeout(startNewRound, 1000);
+            }
+        }
+
+        // Function to start a new round
+        function startNewRound() {
+            playerSequence = [];
+            sequence.push(getRandomColor());
+            playSequence();
+        }
+
+        // Function to get a random color
+        function getRandomColor() {
+            const colors = ['red', 'green', 'blue', 'yellow'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        // Add event listeners for buttons
+        colorButtons.red.addEventListener('click', () => handlePlayerClick('red'));
+        colorButtons.green.addEventListener('click', () => handlePlayerClick('green'));
+        colorButtons.blue.addEventListener('click', () => handlePlayerClick('blue'));
+        colorButtons.yellow.addEventListener('click', () => handlePlayerClick('yellow'));
+
+        // Game Start
+        startNewRound();
+
+        // Redirect to Player Page on button click
         const params = new URLSearchParams(window.location.search);
         const streamUrl = decodeURIComponent(params.get('url'));
         const channelName = decodeURIComponent(params.get('name'));
-
-        // Construct the HTTP redirect URL
         const httpUrl = `http://unknown-playlists.sportsontheweb.net/player.html?url=${encodeURIComponent(streamUrl)}&name=${encodeURIComponent(channelName)}`;
 
-        // Add click event to the button to redirect
-        const redirectButton = document.getElementById('redirectButton');
         redirectButton.addEventListener('click', () => {
             window.location.href = httpUrl;
         });
     </script>
+
 </body>
 </html>
