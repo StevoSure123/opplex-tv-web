@@ -40,17 +40,16 @@
         }
 
         .button-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: repeat(2, 150px);
             gap: 20px;
             margin-top: 30px;
         }
 
         .color-button {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            border-radius: 10px;
             border: none;
             cursor: pointer;
             opacity: 0.9;
@@ -93,6 +92,7 @@
             <button class="color-button" id="blue"></button>
             <button class="color-button" id="yellow"></button>
         </div>
+        <h2 id="levelDisplay">Level: 1</h2>
     </div>
 
     <script>
@@ -111,6 +111,7 @@
         const greenButton = document.getElementById('green');
         const blueButton = document.getElementById('blue');
         const yellowButton = document.getElementById('yellow');
+        const levelDisplay = document.getElementById('levelDisplay');
 
         // Get the redirect button
         const redirectButton = document.getElementById('redirectButton');
@@ -124,22 +125,22 @@
         // Add event listeners to buttons for sound effects
         redButton.addEventListener('click', () => {
             playSound(soundURLs.red);
-            console.log("Red clicked");
+            handleUserInput('red');
         });
 
         greenButton.addEventListener('click', () => {
             playSound(soundURLs.green);
-            console.log("Green clicked");
+            handleUserInput('green');
         });
 
         blueButton.addEventListener('click', () => {
             playSound(soundURLs.blue);
-            console.log("Blue clicked");
+            handleUserInput('blue');
         });
 
         yellowButton.addEventListener('click', () => {
             playSound(soundURLs.yellow);
-            console.log("Yellow clicked");
+            handleUserInput('yellow');
         });
 
         // Redirect button functionality
@@ -155,13 +156,19 @@
         // Simon Says game logic
         let sequence = [];
         let userInput = [];
-        let level = 0;
+        let level = 1;
 
         function nextSequence() {
+            if (level > 32) {
+                alert("Congratulations! You've completed the game!");
+                return;
+            }
+
             const colors = ['red', 'green', 'blue', 'yellow'];
             const randomColor = colors[Math.floor(Math.random() * 4)];
             sequence.push(randomColor);
             userInput = [];
+            levelDisplay.innerText = `Level: ${level}`;
             playSequence();
             level++;
         }
@@ -182,42 +189,26 @@
             }, 1000);
         }
 
-        function checkUserInput() {
-            if (userInput.toString() === sequence.toString()) {
-                playSound(soundURLs.correct);
-                setTimeout(nextSequence, 1000);
-            } else {
+        function handleUserInput(color) {
+            userInput.push(color);
+            if (userInput[userInput.length - 1] !== sequence[userInput.length - 1]) {
                 playSound(soundURLs.incorrect);
-                alert('Game Over! You reached level ' + level);
+                alert(`Game Over! You reached level ${level}`);
                 sequence = [];
                 userInput = [];
-                level = 0;
+                level = 1;
+                levelDisplay.innerText = `Level: ${level}`;
+                return;
+            }
+
+            if (userInput.length === sequence.length) {
+                playSound(soundURLs.correct);
+                setTimeout(nextSequence, 1000);
             }
         }
-
-        // User input handling for Simon Says game
-        redButton.addEventListener('click', () => {
-            userInput.push('red');
-            checkUserInput();
-        });
-
-        greenButton.addEventListener('click', () => {
-            userInput.push('green');
-            checkUserInput();
-        });
-
-        blueButton.addEventListener('click', () => {
-            userInput.push('blue');
-            checkUserInput();
-        });
-
-        yellowButton.addEventListener('click', () => {
-            userInput.push('yellow');
-            checkUserInput();
-        });
 
         // Start the Simon Says game
         nextSequence();
     </script>
 </body>
-    </html>
+</html>
