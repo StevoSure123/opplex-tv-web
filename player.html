@@ -5,66 +5,77 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redirect to Player Page</title>
     <style>
+        /* Global styles */
         body {
+            background: linear-gradient(135deg, #1e1e1e, #2b2b2b);
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
-            background-color: #121212;
             display: flex;
             align-items: center;
             justify-content: center;
             height: 100vh;
-            color: #ccc;
+            overflow: hidden;
         }
 
-        .base {
-            text-align: center;
-            background: linear-gradient(145deg, #1c1c1c, #292929);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5), 0 -5px 15px rgba(255, 255, 255, 0.1);
-        }
-
+        /* Button styles */
         .redirect-button {
-            background-color: gray;
+            background-color: #4e4e4e;
             color: white;
-            font-size: 18px;
-            padding: 10px 20px;
-            border-radius: 5px;
+            border: none;
+            padding: 20px 40px;
+            font-size: 20px;
+            border-radius: 50px;
             cursor: pointer;
-            transition: 0.3s;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         .redirect-button:hover {
-            background-color: #888;
+            background-color: #6b6b6b;
+            transform: scale(1.1);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3), 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        .credits {
-            margin-top: 10px;
-            font-size: 12px;
-            color: #aaa;
+        .redirect-button:active {
+            background-color: #333;
+            transform: scale(1);
+        }
+
+        /* Small text below button */
+        .footer-text {
+            position: absolute;
+            bottom: 20px;
+            font-size: 14px;
+            color: #bbb;
+        }
+
+        /* Add a subtle glow effect */
+        .glow {
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.8), 0 0 10px rgba(255, 255, 255, 0.6);
         }
     </style>
 </head>
 <body>
-    <div class="base">
-        <button class="redirect-button" id="redirectButton">Redirect to Player Page</button>
-        <div class="credits">Made by StevoSure :)</div>
+    <div class="container">
+        <button class="redirect-button glow" id="redirectButton">Redirect to Player Page</button>
+        <div class="footer-text">Made with ♥ by StevoSure</div>
     </div>
+
     <script>
+        // Get URL parameters for constructing the redirect link
         const params = new URLSearchParams(window.location.search);
         const streamUrl = decodeURIComponent(params.get('url'));
         const channelName = decodeURIComponent(params.get('name'));
 
-        const playerUrl = `player.html?url=${encodeURIComponent(streamUrl)}&name=${encodeURIComponent(channelName)}`;
-        const redirectButton = document.getElementById('redirectButton');
+        // Construct the HTTP redirect URL
+        const httpUrl = `http://unknown-playlists.sportsontheweb.net/player.html?url=${encodeURIComponent(streamUrl)}&name=${encodeURIComponent(channelName)}`;
 
+        // Add click event to the button to redirect
+        const redirectButton = document.getElementById('redirectButton');
         redirectButton.addEventListener('click', () => {
-            if (streamUrl) {
-                window.location.href = playerUrl;
-            } else {
-                alert('Error: No stream URL provided');
-            }
+            window.location.href = httpUrl;
         });
     </script>
 </body>
