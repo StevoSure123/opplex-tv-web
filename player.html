@@ -62,8 +62,7 @@
             width: 10px;
             height: 10px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(0,0,0,0) 100%);
-            animation: fly 2s ease-out forwards;
+            animation: fly 1s ease-out forwards;
             pointer-events: none;
         }
 
@@ -71,7 +70,7 @@
         @keyframes fly {
             0% {
                 opacity: 1;
-                transform: translate(0, 0) scale(1);
+                transform: scale(1);
             }
             100% {
                 opacity: 0;
@@ -104,8 +103,8 @@
             window.location.href = httpUrl;
         });
 
-        // Add particles when clicking on the background
-        document.body.addEventListener('click', (e) => {
+        // Add particles on mousemove
+        document.body.addEventListener('mousemove', (e) => {
             if (!e.target.closest('.base')) {
                 spawnParticles(e.clientX, e.clientY);
             }
@@ -113,13 +112,24 @@
 
         // Particle spawner
         function spawnParticles(x, y) {
-            for (let i = 0; i < 20; i++) {
+            const particleCount = 5;
+            for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
                 particle.style.left = `${x}px`;
                 particle.style.top = `${y}px`;
-                particle.style.setProperty('--dx', `${Math.random() * 400 - 200}`);
-                particle.style.setProperty('--dy', `${Math.random() * 400 - 200}`);
+
+                // Randomize particle properties
+                const size = Math.random() * 8 + 4;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+
+                const colors = ['#ff4b5c', '#ffcd3c', '#4bcffa', '#2ed573', '#a29bfe'];
+                particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+
+                // Random trajectory
+                particle.style.setProperty('--dx', `${Math.random() * 300 - 150}`);
+                particle.style.setProperty('--dy', `${Math.random() * 300 - 150}`);
                 document.body.appendChild(particle);
 
                 // Remove particle after animation ends
