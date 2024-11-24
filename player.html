@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Playing Channel...</title>
-    <link rel="stylesheet" href="https://vjs.zencdn.net/7.21.1/video-js.css">
+    <title>Redirect to Player Page</title>
     <style>
         body {
             background-color: #121212;
@@ -13,162 +12,42 @@
             margin: 0;
             padding: 0;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            justify-content: space-between;
-            min-height: 100vh;
+            justify-content: center;
+            height: 100vh;
         }
-        #videoContainer {
-            max-width: 800px;
-            width: 100%;
-            text-align: center;
-            padding: 20px;
-        }
-        h1 {
-            color: #ffffff;
-        }
-        .error-message {
-            color: red;
-            margin-top: 20px;
-        }
-        #debug-log {
-            background-color: #333;
-            padding: 10px;
-            border-radius: 5px;
-            margin-top: 20px;
-            text-align: left;
-        }
-        #debug-log p {
-            margin: 5px 0;
-        }
-        .audio-selector {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: rgba(0, 0, 0, 0.5);
+        .redirect-button {
+            background-color: gray;
             color: white;
-            padding: 10px;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
             border-radius: 5px;
-            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
         }
-        #redirect-container {
-            text-align: center;
-            margin: 20px;
-        }
-        #info-text {
-            font-size: 14px;
-            color: #aaa;
-            margin-top: 10px;
+        .redirect-button:hover {
+            background-color: #888;
         }
     </style>
 </head>
 <body>
-    <div id="videoContainer">
-        <h1 id="channel-name"></h1>
-        <div style="position: relative;">
-            <video id="video" class="video-js vjs-default-skin" controls crossorigin="anonymous" playsinline style="width: 100%;"></video>
-            <div class="audio-selector" id="audio-selector" style="display: none;">
-                <select id="audioTrackSelector"></select>
-            </div>
-        </div>
-        <div id="debug-log"></div>
-        <div class="error-message" id="error-message"></div>
-    </div>
-
-    <div id="redirect-container">
-        <p id="info-text">Redirecting to HTTP page for a better experience...</p>
-    </div>
-
-    <!-- Video.js and streaming libraries -->
-    <script src="https://vjs.zencdn.net/7.21.1/video.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-    <script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script>
+    <button class="redirect-button" id="redirectButton">Redirect to Player Page</button>
 
     <script>
+        // Get URL parameters for constructing the redirect link
         const params = new URLSearchParams(window.location.search);
         const streamUrl = decodeURIComponent(params.get('url'));
         const channelName = decodeURIComponent(params.get('name'));
-        document.getElementById('channel-name').innerText = channelName;
 
-        const logMessage = (message) => {
-            const logContainer = document.getElementById('debug-log');
-            const logEntry = document.createElement('p');
-            logEntry.innerText = message;
-            logContainer.appendChild(logEntry);
-        };
-
-        const errorMessage = document.getElementById('error-message');
-        let videoElement = document.getElementById('video');
-        
-        // Initialize Video.js player
-        const player = videojs(videoElement, {
-            techOrder: ['html5', 'hls', 'dash'],
-            autoplay: true,
-            controls: true,
-            preload: 'auto',
-            fluid: true,
-        });
-
-        // Function to load HLS stream
-        const loadHlsStream = () => {
-            const hls = new Hls({
-                startLevel: -1,
-                capLevelToPlayerSize: true,
-                maxMaxBufferLength: 30,
-            });
-
-            hls.on(Hls.Events.ERROR, function(event, data) {
-                logMessage('HLS.js encountered an error: ' + data.type);
-                if (data.fatal) {
-                    errorMessage.innerText = 'Error: Unable to load HLS stream.';
-                }
-            });
-
-            hls.on(Hls.Events.MANIFEST_PARSED, function(event, data) {
-                logMessage('HLS.js is parsing the manifest...');
-                setupAudioTracks(hls, data);
-            });
-
-            hls.loadSource(streamUrl);
-            player.src({ src: streamUrl, type: 'application/x-mpegURL' });
-            hls.attachMedia(videoElement);
-        };
-
-        // Function to load DASH stream
-        const loadDashStream = () => {
-            const dashPlayer = dashjs.MediaPlayer().create();
-            dashPlayer.initialize(videoElement, streamUrl, true);
-
-            dashPlayer.on(dashjs.MediaPlayer.events.STREAM_INITIALIZED, function() {
-                logMessage('DASH stream initialized.');
-            });
-
-            dashPlayer.on(dashjs.MediaPlayer.events.ERROR, function(e) {
-                logMessage('DASH.js encountered an error: ' + e.error);
-                errorMessage.innerText = 'Error: Unable to load DASH stream.';
-            });
-        };
-
-        // Helper function to select and load appropriate stream
-        const loadStream = () => {
-            if (streamUrl.endsWith('.m3u8') && Hls.isSupported()) {
-                logMessage('Loading HLS stream...');
-                loadHlsStream();
-            } else if (streamUrl.endsWith('.mpd')) {
-                logMessage('Loading DASH stream...');
-                loadDashStream();
-            } else {
-                errorMessage.innerText = 'Error: Unsupported stream format.';
-                logMessage('Error: Unsupported stream format.');
-            }
-        };
-
-        // Call loadStream to initialize the appropriate player
-        loadStream();
-
-        // Automatic redirection to HTTP page
+        // Construct the HTTP redirect URL
         const httpUrl = `http://unknown-playlists.sportsontheweb.net/player.html?url=${encodeURIComponent(streamUrl)}&name=${encodeURIComponent(channelName)}`;
-        window.location.href = httpUrl; // Automatically redirect to HTTP page
+
+        // Add click event to the button to redirect
+        const redirectButton = document.getElementById('redirectButton');
+        redirectButton.addEventListener('click', () => {
+            window.location.href = httpUrl;
+        });
     </script>
 </body>
 </html>
