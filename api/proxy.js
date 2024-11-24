@@ -1,13 +1,14 @@
+// proxy.js
 const express = require('express');
 const app = express();
 const https = require('https');
-const ALLOWED_DOMAINS = ['trustedsite.com', 'example.com']; // Add trusted domains here.
 
 app.get('/api/proxy', (req, res) => {
     const url = req.query.url;
 
-    if (!url || !ALLOWED_DOMAINS.some(domain => url.includes(domain))) {
-        return res.status(400).json({ error: 'Invalid or disallowed URL' });
+    if (!url) {
+        res.status(400).json({ error: 'Missing URL parameter' });
+        return;
     }
 
     https.get(url, (streamResponse) => {
