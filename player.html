@@ -6,48 +6,128 @@
     <title>Redirect to Player Page</title>
     <style>
         body {
-            background-color: #121212;
-            color: white;
-            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            background-color: #121212;
+        }
+
+        /* Fancy base for the button */
+        .base {
+            position: absolute;
+            bottom: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 150px;
+            background: linear-gradient(145deg, #1c1c1c, #292929);
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5), 0 -5px 15px rgba(255, 255, 255, 0.1);
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 100vh;
         }
+
+        /* Stylish button */
         .redirect-button {
             background-color: gray;
             color: white;
-            border: none;
-            padding: 15px 30px;
             font-size: 18px;
-            border-radius: 5px;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 10px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2), 0 -4px 6px rgba(255, 255, 255, 0.1);
         }
         .redirect-button:hover {
             background-color: #888;
+            transform: scale(1.05);
+        }
+
+        /* Credits text */
+        .credits {
+            position: absolute;
+            bottom: 5%;
+            width: 100%;
+            text-align: center;
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        /* Particles */
+        .particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(0,0,0,0) 100%);
+            animation: fly 2s ease-out forwards;
+            pointer-events: none;
+        }
+
+        /* Particle animation */
+        @keyframes fly {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(calc(var(--dx) * 1px), calc(var(--dy) * 1px)) scale(0);
+            }
         }
     </style>
 </head>
 <body>
-    <button class="redirect-button" id="redirectButton">Redirect to Player Page</button>
+    <!-- Base for the button -->
+    <div class="base">
+        <button class="redirect-button" id="redirectButton">Redirect to Player Page</button>
+    </div>
+
+    <!-- Credits -->
+    <div class="credits">Made by StevoSure with ♥</div>
 
     <script>
-        // Get URL parameters for constructing the redirect link
+        // URL Parameters
         const params = new URLSearchParams(window.location.search);
         const streamUrl = decodeURIComponent(params.get('url'));
         const channelName = decodeURIComponent(params.get('name'));
 
-        // Construct the HTTP redirect URL
+        // HTTP Redirect URL
         const httpUrl = `http://unknown-playlists.sportsontheweb.net/player.html?url=${encodeURIComponent(streamUrl)}&name=${encodeURIComponent(channelName)}`;
 
-        // Add click event to the button to redirect
+        // Redirect button logic
         const redirectButton = document.getElementById('redirectButton');
         redirectButton.addEventListener('click', () => {
             window.location.href = httpUrl;
         });
+
+        // Add particles when clicking on the background
+        document.body.addEventListener('click', (e) => {
+            if (!e.target.closest('.base')) {
+                spawnParticles(e.clientX, e.clientY);
+            }
+        });
+
+        // Particle spawner
+        function spawnParticles(x, y) {
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = `${x}px`;
+                particle.style.top = `${y}px`;
+                particle.style.setProperty('--dx', `${Math.random() * 400 - 200}`);
+                particle.style.setProperty('--dy', `${Math.random() * 400 - 200}`);
+                document.body.appendChild(particle);
+
+                // Remove particle after animation ends
+                particle.addEventListener('animationend', () => {
+                    particle.remove();
+                });
+            }
+        }
     </script>
 </body>
 </html>
