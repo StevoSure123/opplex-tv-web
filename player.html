@@ -5,62 +5,92 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redirect to Player Page</title>
     <style>
-        /* Global styles */
+        /* Global Styles */
         body {
-            background: linear-gradient(135deg, #1e1e1e, #2b2b2b);
-            color: white;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(circle, #0a0a0a, #1b1b1b);
+            color: #fff;
+            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             height: 100vh;
             overflow: hidden;
+            text-align: center;
         }
 
-        /* Button styles */
+        .container {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Button Styles */
         .redirect-button {
-            background-color: #4e4e4e;
-            color: white;
+            background-color: #3b3b3b;
+            color: #fff;
             border: none;
-            padding: 20px 40px;
-            font-size: 20px;
-            border-radius: 50px;
+            padding: 25px 50px;
+            font-size: 22px;
+            border-radius: 60px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            letter-spacing: 1px;
         }
 
         .redirect-button:hover {
-            background-color: #6b6b6b;
-            transform: scale(1.1);
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3), 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: #585858;
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
         }
 
         .redirect-button:active {
-            background-color: #333;
-            transform: scale(1);
+            background-color: #2c2c2c;
+            transform: scale(1) rotate(0);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
         }
 
-        /* Small text below button */
+        /* Subtle glowing effect */
+        .glow-text {
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px rgba(255, 255, 255, 0.5);
+            transition: text-shadow 0.3s ease;
+        }
+
+        .glow-text:hover {
+            text-shadow: 0 0 15px rgba(255, 255, 255, 1), 0 0 25px rgba(255, 255, 255, 0.7);
+        }
+
+        /* Footer text */
         .footer-text {
             position: absolute;
-            bottom: 20px;
-            font-size: 14px;
-            color: #bbb;
+            bottom: 15px;
+            font-size: 16px;
+            color: #dcdcdc;
+            font-weight: bold;
+            letter-spacing: 0.5px;
         }
 
-        /* Add a subtle glow effect */
-        .glow {
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.8), 0 0 10px rgba(255, 255, 255, 0.6);
+        /* Animation */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Fade-in effect for the button */
+        .redirect-button {
+            animation: fadeIn 1s ease-in-out;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <button class="redirect-button glow" id="redirectButton">Redirect to Player Page</button>
-        <div class="footer-text">Made with ♥ by StevoSure</div>
+        <button class="redirect-button glow-text" id="redirectButton">Redirect to Player Page</button>
+        <div class="footer-text">Created with ♥ by StevoSure</div>
     </div>
 
     <script>
