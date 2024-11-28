@@ -24,7 +24,9 @@ function parseM3U(data) {
         line = line.trim();
 
         if (line.startsWith('#EXTINF:')) {
+            // Push the last channel if there's any
             if (currentChannel.name) parsedChannels.push(currentChannel);
+            
             currentChannel = {}; // Reset for the new channel
 
             const nameMatch = line.match(/,(.+)$/);
@@ -39,6 +41,7 @@ function parseM3U(data) {
         }
     });
 
+    // Push the last channel if it exists
     if (currentChannel.name) parsedChannels.push(currentChannel);
     return parsedChannels;
 }
@@ -58,7 +61,7 @@ function populateGroups() {
 // Display channels with pagination, search, and group filter
 function displayChannels() {
     const container = document.getElementById('channel-list');
-    container.innerHTML = '';
+    container.innerHTML = ''; // Clear current channels
 
     const filteredChannels = channels.filter(channel =>
         (currentGroup === 'all' || channel.group === currentGroup) &&
@@ -73,12 +76,13 @@ function displayChannels() {
         const channelDiv = document.createElement('div');
         channelDiv.classList.add('channel');
         channelDiv.innerHTML = `
-            <img src="${channel.logo || 'path/to/default_logo.png'}" alt="${channel.name}" class="channel-logo" onclick="playStream('${encodeURIComponent(channel.url)}')">
+            <img src="${channel.logo || 'path/to/default_logo.png'}" alt="${channel.name}" class="channel-logo" onclick="playStream('${encodeURIComponent(channel.url)}', '${encodeURIComponent(channel.name)}')">
             <p>${channel.name}</p>
         `;
         container.appendChild(channelDiv);
     });
 
+    // Update pagination info
     document.getElementById('page-info').textContent = `Page ${currentPage} of ${Math.ceil(filteredChannels.length / CHANNELS_PER_PAGE)}`;
     document.getElementById('prev-page').disabled = currentPage === 1;
     document.getElementById('next-page').disabled = end >= filteredChannels.length;
@@ -118,10 +122,8 @@ document.getElementById('next-page').addEventListener('click', () => {
     }
 });
 
-// Play stream
+// Play stream by redirecting to the player page
 function playStream(url, name) {
-    // Redirect to player.html, passing the stream URL and name as query parameters
-    const playerUrl = `player.html?url=${encodeURIComponent(url)}&name=${encodeURIComponent(name)}`;
+    const playerUrl = `https://unknown-playlists-opplex-tv.vercel.app/player.html?url=${encodeURIComponent(url)}&name=${encodeURIComponent(name)}`;
     window.location.href = playerUrl;
-}
 }
