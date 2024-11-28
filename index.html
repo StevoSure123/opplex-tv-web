@@ -35,13 +35,13 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            margin-top: 30px; /* Increased space from above elements */
-            padding: 8px 16px; /* Smaller padding for a smaller button */
+            margin-top: 30px; /* Space between the button and other elements */
+            padding: 8px 16px;
             background: linear-gradient(135deg, #0088cc, #005d99); /* Blue gradient */
             color: white;
             font-weight: bold;
-            border-radius: 20px; /* Slightly smaller radius */
-            font-size: 14px; /* Smaller font size */
+            border-radius: 20px;
+            font-size: 14px;
             cursor: pointer;
             transition: transform 0.3s, box-shadow 0.3s;
             text-decoration: none;
@@ -54,7 +54,7 @@
         }
 
         .telegram-btn img {
-            width: 20px; /* Smaller logo size */
+            width: 20px;
             height: 20px;
             margin-right: 8px;
         }
@@ -105,6 +105,11 @@
             color: #666;
             text-align: center;
         }
+
+        /* Styling for channel list container to add gap */
+        #channel-list {
+            margin-bottom: 40px; /* Add margin to separate the channel list from the telegram button */
+        }
     </style>
 </head>
 <body>
@@ -118,11 +123,12 @@
         <select id="group-select">
             <option value="all">All Groups</option>
         </select>
+        <div id="channel-list"></div>
+        <!-- Added gap here for Telegram button -->
         <a href="https://t.me/unknownXplaylists" class="telegram-btn" target="_blank" rel="noopener noreferrer">
             <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram Logo">
             Join Our Telegram Channel
         </a>
-        <div id="channel-list"></div>
         <div id="pagination-controls">
             <button id="prev-page" class="page-btn">Previous</button>
             <span id="page-info"></span>
