@@ -119,6 +119,9 @@ document.getElementById('next-page').addEventListener('click', () => {
 });
 
 // Play stream
-function playStream(url) {
-    window.location.href = decodeURIComponent(url);
+function playStream(url, name) {
+    // Redirect to player.html, passing the stream URL and name as query parameters
+    const playerUrl = `player.html?url=${encodeURIComponent(url)}&name=${encodeURIComponent(name)}`;
+    window.location.href = playerUrl;
+}
 }
