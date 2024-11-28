@@ -76,7 +76,7 @@ function displayChannels() {
         const channelDiv = document.createElement('div');
         channelDiv.classList.add('channel');
         channelDiv.innerHTML = `
-            <img src="${channel.logo || 'path/to/default_logo.png'}" alt="${channel.name}" class="channel-logo" onclick="playStream('${encodeURIComponent(channel.url)}', '${encodeURIComponent(channel.name)}')">
+            <img src="${channel.logo}" alt="${channel.name}" class="channel-logo" onerror="this.src='path/to/default_logo.png';" onclick="playStream('${encodeURIComponent(channel.url)}', '${encodeURIComponent(channel.name)}')">
             <p>${channel.name}</p>
         `;
         container.appendChild(channelDiv);
