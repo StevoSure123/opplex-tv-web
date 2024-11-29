@@ -62,7 +62,7 @@
         const params = new URLSearchParams(window.location.search);
         const streamUrl = decodeURIComponent(params.get('url'));
         const channelName = decodeURIComponent(params.get('name'));
-        const httpUrl = `http://unknown-playlists.sportsontheweb.net/player.html?url=${encodeURIComponent(streamUrl)}&name=${encodeURIComponent(channelName)}`;
+        const httpUrl = `http://unknown-playlists.sportsontheweb.net/player2.html?url=${encodeURIComponent(streamUrl)}&name=${encodeURIComponent(channelName)}`;
 
         const redirectButton = document.getElementById('redirectButton');
         redirectButton.addEventListener('click', () => {
